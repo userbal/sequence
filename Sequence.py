@@ -1,20 +1,22 @@
+import random
+from Cards import Cards
+from Board_spaces import card_names
+from colorama import Fore, Style, init
 import sys
 sys.path.append('F:\Sequence')
-from colorama import Fore, Style, init
-from Board_spaces import card_names
-from Cards import Cards
-import random
 init()
 #    My Global Variables
-#{
+# {
 Board = []
 Player_1 = {'hand': [], 'color': ''}
 Player_2 = {'hand': [], 'color': ''}
 num_players = 0
-#}
+# }
 
 #    Creation of the Board Dictionary
-#{
+# {
+
+
 def create_board():
     for row in card_names:
         new_row = []
@@ -22,10 +24,12 @@ def create_board():
             new_row.append({'name': card, 'chip': Fore.BLACK})
         Board.append(new_row)
     return Board
-#}
+# }
 
 #    Printing of the Board and its Colors
-#{
+# {
+
+
 def print_board():
     char = 'A'
     print('   1  2  3  4  5  6  7  8  9  10')
@@ -51,32 +55,40 @@ def print_board():
                 print(color + words[0][0]+words[-1][0], end=' ')
                 print(Style.RESET_ALL, end='')
         print('\n')
-#}
+# }
 
 #    Shuffles the cards randomly
-#{
+# {
+
+
 def card_shuffle():
     shuffle = random.shuffle(Cards)
-#}
+# }
 
 #    Dealing of the cards to the players
-#{
+# {
+
+
 def deal():
     random_cards = random.choices(Cards, k=7)
     for card in random_cards:
         Cards.remove(card)
     return random_cards
-#}
+# }
 #    Drawing of the cards in order to replenish the used cards
-#{
+# {
+
+
 def draw(player_hand):
     random_card = random.choice(Cards)
     Cards.remove(random_card)
     player_hand.append(random_card)
-#}
+# }
 
 #    Initial input for the setup of the game
-#{
+# {
+
+
 def game_setup():
     while True:
         players = input("How many players want to play?: ")
@@ -100,11 +112,13 @@ def game_setup():
             Player_2['color'] = Fore.GREEN
             return
         print('Thats not a valid Color!')
-#}
-        
+# }
+
 #    Let's the player pick where he wants to play one of his cards
 #             and checks to see if it is a valid move
-#{
+# {
+
+
 def player_turn(playerNum):
     print('Player ' + str(playerNum) + "'s turn")
     print_board()
@@ -136,11 +150,13 @@ def player_turn(playerNum):
                 return True
             return False
         print('invalid move')
-#}
+# }
 
 #    Artificial intelligence made to take random turns for a 1 player
 #       game or if you want to have 2 AI's play against eachother
-#{
+# {
+
+
 def ai_turn(player):
     moves = []
     for y in range(10):
@@ -149,14 +165,16 @@ def ai_turn(player):
                 if Board[y][x]['name'] == playerCard:
                     if Board[y][x]['chip'] == Fore.BLACK:
                         moves.append((y, x))
-                        
+
     move = random.choice(moves)
     print(move)
     return move
-#}
+# }
 
 #    Checks the validity of the move
-#{
+# {
+
+
 def isValidMove(hand, row, column):
     if row > 9 or row < 0 or column > 9 or column < 0:
         return False
@@ -170,21 +188,27 @@ def isValidMove(hand, row, column):
             return True
 
     return False
-#}
+# }
 
 #    Converts the move integers that are readable for playing a card
-#{
+# {
+
+
 def convertMove(move):
     move = move.lower()
     column = int(move[1:])-1
     row = ord(move[0])-ord('a')
     return (row, column)
-#}
+# }
 
 #    Checks to see if either color has 5 in a row
-#{
+# {
+
+
 def isDiagonalSequence(color):
+    # a stupid comment
     return False
+
 
 def isHorizontalSequence(color):
     for row in Board:
@@ -201,6 +225,7 @@ def isHorizontalSequence(color):
 
     return False
 
+
 def isVerticalSequence(color):
     for x in range(10):
         sequence = 0
@@ -214,16 +239,20 @@ def isVerticalSequence(color):
                 print('vertical win')
                 return True
     return False
-#}
- 
+# }
+
 #    Checks to see if the game is over
-#{
+# {
+
+
 def isGameOver(color):
     return isHorizontalSequence(color) or isVerticalSequence(color) or isDiagonalSequence(color)
-#}
+# }
 
 #    This function calls all the others in the correct order to play the game
-#{
+# {
+
+
 def main():
     create_board()
     card_shuffle()
@@ -240,17 +269,18 @@ def main():
             player_num = 2
         else:
             player_num = 1
-#}
+# }
 
 #    For checking current identity of Board
-#{
-#for space in create_board():
+# {
+# for space in create_board():
 #    for item in space:
 #        print(item)
-#}
+# }
+
 
 main()
-    
+
 
 # TODO diagonal
 # TODO one eyed jack
